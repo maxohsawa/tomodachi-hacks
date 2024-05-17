@@ -1,3 +1,6 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
 const getScores = require("./getScores");
 const injectNewScore = require("./injectNewScore");
 
@@ -18,7 +21,9 @@ const go = async () => {
     console.log("Highest Score", highestTimeAlive);
     console.log("Leader", username);
 
-    if (username !== "Ben") {
+    const yourUsername = jwt.decode(process.env.token).username;
+
+    if (username !== yourUsername) {
       losses++;
       await injectNewScore(highestTimeAlive + offset + losses);
     } else {
