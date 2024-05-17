@@ -18,7 +18,7 @@ const go = async () => {
     console.log("Highest Score", highestTimeAlive);
     console.log("Leader", username);
 
-    if (username !== "NO-YOU-WONT") {
+    if (username !== "Ben") {
       losses++;
       await injectNewScore(highestTimeAlive + offset + losses);
     } else {
