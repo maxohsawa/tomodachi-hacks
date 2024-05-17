@@ -1,3 +1,17 @@
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+
+// token & gameId
+const { token, gameId } = process.env;
+
+// userId
+const decodedToken = jwt.decode(token);
+const { _id: userId } = decodedToken.data;
+
+const convertTimeToSeconds = (hours, minutes, seconds) => {
+  return 3600 * hours + 60 * minutes + seconds;
+};
+
 const mutation = `
 mutation UpdateGameData(
   $userId: String!
@@ -32,13 +46,9 @@ mutation UpdateGameData(
 }
 `;
 
-const convertTimeToSeconds = (hours, minutes, seconds) => {
-  return 3600 * hours + 60 * minutes + seconds;
-};
-
 const variables = {
-  userId: "66463604a2041cbc00e9706d",
-  gameId: "6646360fa2041cbc00e97070",
+  userId,
+  gameId,
   food: 95,
   energy: 90,
   happiness: 85,
@@ -52,8 +62,7 @@ const payload = {
 
 const headers = {
   "Content-Type": "application/json",
-  Authorization:
-    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7InVzZXJuYW1lIjoibWF4X2FzZGYiLCJlbWFpbCI6Im1heEBnbWFpbC5jb20iLCJfaWQiOiI2NjQ2MzYwNGEyMDQxY2JjMDBlOTcwNmQifSwiaWF0IjoxNzE1OTUwMjg3LCJleHAiOjE3MTU5NTc0ODd9.hI-QTKnGr4ykjgJlzaIISW7PGMpndOxScs-K6gh0O_E",
+  Authorization: `Bearer ${token}`,
 };
 
 fetch("https://tomodachi-who7.onrender.com/graphql", {
