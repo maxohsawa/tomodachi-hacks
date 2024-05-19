@@ -21,7 +21,7 @@ const go = async () => {
     console.log("Highest Score", highestTimeAlive);
     console.log("Leader", username);
 
-    const yourUsername = jwt.decode(process.env.token).username;
+    const yourUsername = jwt.decode(process.env.token).data.username;
 
     if (username !== yourUsername) {
       losses++;
